@@ -1,4 +1,5 @@
 from django.db import models
+from django.utils import timezone
 from django.contrib.auth.models import BaseUserManager, AbstractBaseUser
 
 # Create your models here.
@@ -46,7 +47,7 @@ class Payment(models.Model):
         max_length=255, choices=Payment_Method_Choies, default=UPI)
 
     user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
-    amount = models.DecimalField(max_digits=10)
+    amount = models.DecimalField(max_digits=10, decimal_places=0)
 
     last_update = models.DateTimeField(auto_now=True)
     create_at = models.DateTimeField(auto_now_add=True)
@@ -59,9 +60,9 @@ class Address(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
 
     country = models.CharField(max_length=255, default='iran')
-    province = models.CharField(max_length=255)
-    city = models.CharField(max_length=255)
+    province = models.CharField(max_length=255, blank=True, null=True)
+    city = models.CharField(max_length=255, blank=True, null=True)
     address_line = models.TextField(blank=True, null=True)
 
     last_update = models.DateTimeField(auto_now=True)
-    create_at = models.DateTimeField(auto_now_add=True)
+    create_at = models.DateTimeField(auto_now_add=True, default=timezone.now)
