@@ -14,6 +14,7 @@ class MyUserManager(BaseUserManager):
             raise ValueError("User must have an email address.")
         user = self.model(
             email=self.normalize_email(email),
+            name=name,
         )
         user.set_password(password)
         user.save()
@@ -23,24 +24,44 @@ class MyUserManager(BaseUserManager):
 class User(AbstractBaseUser):
     email = models.EmailField(max_length=255, unique=True)
     name = models.CharField(max_length=255)
+    last_update = models.DateTimeField(auto_now=True)
+    create_at = models.DateTimeField(auto_now_add=True)
+
     objects = MyUserManager()
 
     USERNAME_FIELD = "email"
 
 
 class Payment(models.Model):
-    """_summary_
-
-    Args:
-        models (_type_): _description_
     """
-    pass
+        Store payment info
+    """
+    UPI = 'U'
+    Credit_Card = 'CC'
+    Payment_Method_Choies = [
+        (UPI, "UPI"),
+        (Credit_Card, "Credit Card"),
+    ]
+    payment_method = models.CharField(
+        max_length=255, choices=Payment_Method_Choies, default=UPI)
+
+    user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
+    amount = models.DecimalField(max_digits=10)
+
+    last_update = models.DateTimeField(auto_now=True)
+    create_at = models.DateTimeField(auto_now_add=True)
 
 
 class Address(models.Model):
-    """_summary_
-
-    Args:
-        models (_type_): _description_
     """
-    pass
+        store Addresses for each user
+    """
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+
+    country = models.CharField(max_length=255, default='iran')
+    province = models.CharField(max_length=255)
+    city = models.CharField(max_length=255)
+    address_line = models.TextField(blank=True, null=True)
+
+    last_update = models.DateTimeField(auto_now=True)
+    create_at = models.DateTimeField(auto_now_add=True)
