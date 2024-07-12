@@ -26,7 +26,7 @@ class User(AbstractBaseUser):
     email = models.EmailField(max_length=255, unique=True)
     name = models.CharField(max_length=255)
     last_update = models.DateTimeField(auto_now=True)
-    create_at = models.DateTimeField(auto_now_add=True)
+    create_at = models.DateTimeField(auto_now_add=True, default=timezone.now)
 
     objects = MyUserManager()
 
@@ -50,7 +50,7 @@ class Payment(models.Model):
     amount = models.DecimalField(max_digits=10, decimal_places=0)
 
     last_update = models.DateTimeField(auto_now=True)
-    create_at = models.DateTimeField(auto_now_add=True)
+    create_at = models.DateTimeField(auto_now_add=True, default=timezone.now)
 
 
 class Address(models.Model):
