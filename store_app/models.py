@@ -47,7 +47,7 @@ class Payment(models.Model):
         max_length=255, choices=Payment_Method_Choies, default=UPI)
 
     user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
-    amount = models.DecimalField(max_digits=10, decimal_places=0)
+    amount = models.DecimalField(max_digits=10, decimal_places=0, null=True)
 
     last_update = models.DateTimeField(auto_now=True)
     create_at = models.DateTimeField(default=timezone.now)
