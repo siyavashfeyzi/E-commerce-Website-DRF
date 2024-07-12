@@ -57,7 +57,7 @@ class Address(models.Model):
     """
         store Addresses for each user
     """
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
 
     country = models.CharField(max_length=255, default='iran')
     province = models.CharField(max_length=255, blank=True, null=True)
